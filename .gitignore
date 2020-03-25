@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+UniConfig.inf
 
 # Test binary, built with `go test -c`
 *.test
