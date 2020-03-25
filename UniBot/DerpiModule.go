@@ -76,6 +76,7 @@ func (Uni *UniBot) SearchOnDerpi(cID, tags string) {
 	tags = url.QueryEscape(tags)
 	tags = strings.Replace(strings.Replace(tags, " ", "+", -1), "&", "%26", -1)
 	fmt.Println(Uni.GetChannelDerpiFilter(cID))
+	// TODO
 }
 
 // Get the channel's set derpi filter
@@ -97,8 +98,9 @@ func (Uni *UniBot) SetChannelDerpiFilter(gID, cID, filterid string) {
 	}
 	// everything is fine
 	fstr := ""
-	Uni.DBGetFirstVar(fstr, "GetDerpiFilter", cID)
+	Uni.DBGetFirstVar(fstr, "GetDerpiFilter", cID) // index detection isn't working, will fix tomorrow
 	if fstr == "" { // no such index exists, create index
+		fmt.Println("~~~")
 		_, err = Uni.DBExec("InsertDerpiFilter", gID, cID, filterid)
 	} else { // index for channel already exists, update index
 		_, err = Uni.DBExec("UpdateDerpiFilter", filterid, cID)
@@ -115,13 +117,8 @@ func (Uni *UniBot) SetChannelDerpiFilter(gID, cID, filterid string) {
 func (Uni *UniBot) GetDerpiFilter(filterid string) (*Filter, error) {
 	resp, err := Uni.HTTPRequest("GET", fmt.Sprintf("https://derpibooru.org/filters/%s.json", filterid), map[string]interface{}{"User-Agent": GrabUserAgent(),}, nil)
 	if err != nil { return nil, err }
-	fmt.Println(resp.StatusCode)
-	if resp.StatusCode == 302 { // redirected, likely that the filter didn't exist or isn't public
-		return nil, nil
-	}
 	var f *Filter
-	err = json.NewDecoder(resp.Body).Decode(&f)
-	if err != nil { return nil, err }
+	json.NewDecoder(resp.Body).Decode(&f)
 	return f, nil
 }
 

@@ -4,7 +4,6 @@
 *.dll
 *.so
 *.dylib
-UniConfig.inf
 
 # Test binary, built with `go test -c`
 *.test
@@ -14,3 +13,9 @@ UniConfig.inf
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+## UniBot stuff
+UniConfig.inf
+backups
+errlog
+tmp

@@ -11,7 +11,7 @@ var unisql map[string]map[string]string = map[string]map[string]string{
 CREATE TABLE IF NOT EXISTS ServerData(id text not null, adminrole text default null);
 CREATE TABLE IF NOT EXISTS NSFWList(userid text not null);
 CREATE TABLE IF NOT EXISTS Modules(gID text not null, cID text not null, modules bigint not null default 0);
-CREATE TABLE IF NOT EXISTS DerpiFilters(cID text not null, filterID bigint not null);
+CREATE TABLE IF NOT EXISTS DerpiFilters(gID text not null, cID text not null, filterID bigint not null);
 CREATE TABLE IF NOT EXISTS UniBucks(userID text not null, value real not null);
 CREATE TABLE IF NOT EXISTS DailyUniBucks(userID text not null, nanoseconds bigint not null);
 CREATE TABLE IF NOT EXISTS UserStocks(userid text not null, name text not null, quantity real not null);
@@ -30,8 +30,8 @@ PRAGMA synchronous = EXTRA;
 	"GiveNSFW": "INSERT INTO NSFWList VALUES ('%s');",
 	"RevokeNSFW": "DELETE FROM NSFWList WHERE userid IS '%s';",
 	"GetDerpiFilter": "SELECT filterID FROM DerpiFilters WHERE cID IS '%s';",
-	"InsertDerpiFilter": "INSERT INTO DerpiFilters VALUES ('%s', '%s', %d);",
-	"UpdateDerpiFilter": "UPDATE DerpiFilter SET filterID = %d WHERE cID IS '%s';",
+	"InsertDerpiFilter": "INSERT INTO DerpiFilters VALUES ('%s', '%s', %v);",
+	"UpdateDerpiFilter": "UPDATE DerpiFilter SET filterID = %v WHERE cID IS '%s';",
 	},
 	"postgres": map[string]string{
 		"Startup": "", // TODO

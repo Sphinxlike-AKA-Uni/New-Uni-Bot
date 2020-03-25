@@ -24,6 +24,8 @@ func (Uni *UniBot) OpenDB() (err error) {
 
 // Execute instruction for database (sometimes different SQL servers have different syntax)
 func (Uni *UniBot) DBExec(index string, a ...interface{}) (sql.Result, error) {
+	fmt.Printf(unisql[Uni.Config.DBDriver][index], a...)
+	fmt.Println()
 	return Uni.DB.Exec(fmt.Sprintf(unisql[Uni.Config.DBDriver][index], a...))
 }
 
