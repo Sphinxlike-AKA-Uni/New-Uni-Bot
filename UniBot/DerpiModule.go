@@ -82,7 +82,7 @@ func (Uni *UniBot) SearchOnDerpi(cID, tags string) {
 // Get the channel's set derpi filter
 func (Uni *UniBot) GetChannelDerpiFilter(cID string) (string, error) {
 	var fstr string = "157679" // https://www.derpibooru.org/filters/157679 being the default filter
-	err := Uni.DBGetFirstVar(fstr, "GetDerpiFilter", cID)
+	err := Uni.DBGetFirstVar(&fstr, "GetDerpiFilter", cID)
 	return fstr, err
 }
 
@@ -96,9 +96,10 @@ func (Uni *UniBot) SetChannelDerpiFilter(gID, cID, filterid string) {
 		Uni.ErrRespond(err, cID, "requesting filter data", map[string]interface{}{"gID": gID, "cID": cID, "err": err, "filterid": filterid})
 		return
 	}
-	// everything is fine
+	
+	// proceed
 	fstr := ""
-	Uni.DBGetFirstVar(fstr, "GetDerpiFilter", cID) // index detection isn't working, will fix tomorrow
+	Uni.DBGetFirstVar(&fstr, "GetDerpiFilter", cID)
 	if fstr == "" { // no such index exists, create index
 		fmt.Println("~~~")
 		_, err = Uni.DBExec("InsertDerpiFilter", gID, cID, filterid)

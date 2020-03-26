@@ -31,7 +31,7 @@ PRAGMA synchronous = EXTRA;
 	"RevokeNSFW": "DELETE FROM NSFWList WHERE userid IS '%s';",
 	"GetDerpiFilter": "SELECT filterID FROM DerpiFilters WHERE cID IS '%s';",
 	"InsertDerpiFilter": "INSERT INTO DerpiFilters VALUES ('%s', '%s', %v);",
-	"UpdateDerpiFilter": "UPDATE DerpiFilter SET filterID = %v WHERE cID IS '%s';",
+	"UpdateDerpiFilter": "UPDATE DerpiFilters SET filterID = %v WHERE cID IS '%s';",
 	},
 	"postgres": map[string]string{
 		"Startup": "", // TODO
