@@ -101,7 +101,6 @@ func (Uni *UniBot) SetChannelDerpiFilter(gID, cID, filterid string) {
 	fstr := ""
 	Uni.DBGetFirstVar(&fstr, "GetDerpiFilter", cID)
 	if fstr == "" { // no such index exists, create index
-		fmt.Println("~~~")
 		_, err = Uni.DBExec("InsertDerpiFilter", gID, cID, filterid)
 	} else { // index for channel already exists, update index
 		_, err = Uni.DBExec("UpdateDerpiFilter", filterid, cID)
@@ -124,24 +123,18 @@ func (Uni *UniBot) GetDerpiFilter(filterid string) (*Filter, error) {
 }
 
 
-/*
-// Grab filter and get filter's data
-func GetDerpiFilter(filterid string) (*Filter, error) {
-	var f *Filter
-	resp, err := Uni.HTTPRequest("GET", link, map[string]interface{}{"User-Agent": GrabUserAgent(true)}, nil)
-	if err != nil { return nil, err }
-	err = json.NewDecoder(resp.Body).Decode(&f)
-	/*
-	fmt.Println(filterid)
-	body, err := HttpGetRequest(fmt.Sprintf("https://derpibooru.org/filters/%s.json", filterid), "Uni_Derpi_Search")
+func (Uni *UniBot) GetRandomImage(tags, filterid string) (*Search, error) {
+	// TODO
+	t, err := DerpiSearch(t, f, 1, 1)
+	
 	if err != nil {
 		return nil, err
 	}
 
-	var tFil *Filter
-	
-	json.Unmarshal(body, &tFil)
-	return tFil, nil
-	* /
+	if tSearch.Total == 0 {
+		return DerpiSearch(t, f, 1, 1)
+	} else {
+		return DerpiSearch(t, f, int(math.Abs(float64(<-Uni.RNGChan%uint64(tSearch.Total))))+1, 1)
+		//return DerpiSearch(t, f, int(math.Abs(float64(Uni.Rng.Intn(tSearch.Total))))+1, 1)
+	}
 }
-*/

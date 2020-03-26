@@ -24,8 +24,6 @@ func (Uni *UniBot) OpenDB() (err error) {
 
 // Execute instruction for database (sometimes different SQL servers have different syntax)
 func (Uni *UniBot) DBExec(index string, a ...interface{}) (sql.Result, error) {
-	fmt.Printf(unisql[Uni.Config.DBDriver][index], a...)
-	fmt.Println()
 	return Uni.DB.Exec(fmt.Sprintf(unisql[Uni.Config.DBDriver][index], a...))
 }
 
@@ -35,9 +33,11 @@ func (Uni *UniBot) DBGetFirstVar(dest interface{}, index string, a ...interface{
 	if err != nil {
 		return err
 	}
-	defer rows.Close()
-	rows.Next()
-	return rows.Scan(dest)
+	if rows.Next() { // so "sql.ErrNoRows" will never be returned
+		defer rows.Close()
+		return rows.Scan(dest)
+	}
+	return nil
 }
 
 // Same thing as "DBGetFirstVar" except create a new variable
@@ -47,10 +47,12 @@ func (Uni *UniBot) DBGetFirst(index string, a ...interface{}) (interface{}, erro
 		return nil, err
 	}
 	defer rows.Close()
-	rows.Next()
-	var d interface{}
-	err = rows.Scan(d)
-	return d, err
+	if rows.Next() {
+		var d interface{}
+		err = rows.Scan(d)
+		return d, err
+	}
+	return nil, nil
 }
 
 
