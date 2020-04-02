@@ -42,9 +42,10 @@ func main() {
 
 	for {
 		cs := <-uni.SC // wait until a signal is captured
+		fmt.Printf("Uni has caught signal %d(%s)\n", cs, cs)
 		if cs != syscall.SIGPIPE && // Ignore broken pipe signals as uni can reconnect on her own
 		cs != syscall.Signal(28) { // ignore "window changed" signals
-			fmt.Printf("Uni has caught signal %d(%s)\nClosing Uni....", cs, cs)
+			fmt.Println("Closing Uni")
 			break
 		}
 	}
