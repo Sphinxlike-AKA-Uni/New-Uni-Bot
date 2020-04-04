@@ -199,10 +199,8 @@ func (Uni *UniBot) SearchOnDerpi(cID, tags string) {
 		},*/
 		Color:  int(<-Uni.RNGChan%(1<<24)), //random color picker
 		Fields: []*discordgo.MessageEmbedField{
-			//&discordgo.MessageEmbedField{Name: "Tags", Value: imagetags, Inline: false},
 			&discordgo.MessageEmbedField{Name: "Upload Date&Time", Value: s.Images[0].Created_At, Inline: true},
 			&discordgo.MessageEmbedField{Name: "Score", Value: fmt.Sprintf("%d - %d = %d", s.Images[0].Upvotes, s.Images[0].Downvotes, s.Images[0].Upvotes-s.Images[0].Downvotes, ), Inline: true},
-			&discordgo.MessageEmbedField{Name: "Wilson Score", Value: fmt.Sprintf("%.5g", s.Images[0].Wilson_Score), Inline: true},
 			&discordgo.MessageEmbedField{Name: "Image Info", Value: fmt.Sprintf("%s Format, (%dx%d)", s.Images[0].Format, s.Images[0].Width, s.Images[0].Height,), Inline: true},
 		},
 		Image: &discordgo.MessageEmbedImage{

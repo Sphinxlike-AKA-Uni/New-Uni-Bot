@@ -51,7 +51,6 @@ func (Uni *UniBot) ProcessMessage(m *discordgo.MessageCreate, isDM bool, g *disc
 		
 		// Module stuff begin here
 		if (!isDM && modules & 2 == 2) || isDM { // Reddit search
-			fmt.Println("-")
 			var nsfw bool
 			if isDM {
 				// did user request for nsfw?
@@ -98,6 +97,15 @@ func (Uni *UniBot) ProcessMessage(m *discordgo.MessageCreate, isDM bool, g *disc
 			}
 		}
 		
+		if (!isDM && modules & 16 == 16) || isDM { // Minigames
+			// TODO
+		}
+		
+		if (!isDM && modules & 32 == 32) || isDM { // Uni Bucks Minigames
+			Uni.CheckIfProfileExists(m) // Check if user has Uni Bucks
+			
+			
+		}
 		// Module stuff end here
 		
 		// Both DM and server commands

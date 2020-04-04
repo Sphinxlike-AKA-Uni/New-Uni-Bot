@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS DerpiFilters(gID text not null, cID text not null, fi
 CREATE TABLE IF NOT EXISTS UniBucks(userID text not null, value real not null);
 CREATE TABLE IF NOT EXISTS DailyUniBucks(userID text not null, nanoseconds bigint not null);
 CREATE TABLE IF NOT EXISTS UserStocks(userid text not null, name text not null, quantity real not null);
+CREATE TABLE StockValues(name text not null, value real not null);
 PRAGMA journal_mode = WAL;
 PRAGMA temp_store = 2;
 PRAGMA synchronous = EXTRA;
