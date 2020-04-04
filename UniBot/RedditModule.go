@@ -2,7 +2,6 @@ package Uni
 import (
 	"fmt"
 	"strings"
-	"encoding/json"
 )
 // Reddit Structs
 type RedditSearchResult struct {
@@ -68,19 +67,14 @@ func (Uni *UniBot) GrabRedditPost(cID, subreddit string, nsfw bool, sortby strin
 		if sortby != "" {
 			link = fmt.Sprintf("%s&sort=%s", link, sortby)
 		}
-		//fmt.Printf("link: %q\n", link)
-		resp, err := Uni.HTTPRequest("GET", link, map[string]interface{}{"User-Agent": GrabUserAgent()}, nil)
-		//resp, err := Uni.HTTPRequest("GET", link, map[string]interface{}{"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0"}, nil)
-		if err != nil { goto GotError }
-		err = json.NewDecoder(resp.Body).Decode(&srs)
-		if err != nil { goto GotError }
-		goto NoError
 		
-		GotError: // Somehow got an error
-		Uni.ErrRespond(err, cID, "getting reddit results", map[string]interface{}{"err": err, "cID": cID, "subreddit": subreddit, "RedditSearchResultStruct": srs, "link": link})
-		return
+		err := Uni.HTTPRequestJSON("GET", link, map[string]interface{}{"User-Agent": GrabUserAgent()}, nil, &srs)
+		if err != nil { // Somehow got an error
+			Uni.ErrRespond(err, cID, "getting reddit results", map[string]interface{}{"err": err, "cID": cID, "subreddit": subreddit, "RedditSearchResultStruct": srs, "link": link})
+			return
+		}
 		
-		NoError: // There was no error, proceed
+		// There was no error, proceed
 		
 		// Size Detection
 		if len(srs.Data.Children) == 0 {

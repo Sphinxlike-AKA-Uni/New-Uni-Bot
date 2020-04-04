@@ -90,6 +90,14 @@ func (Uni *UniBot) ProcessMessage(m *discordgo.MessageCreate, isDM bool, g *disc
 				}
 			}
 		}
+		
+		if (!isDM && modules & 8 == 8) || isDM { // "Inspire me"
+			if strings.HasPrefix(strings.ToLower(m.Content), prefix+" inspire me") {
+				Uni.Inspire(m.ChannelID)
+				return 1, "Inspiro"
+			}
+		}
+		
 		// Module stuff end here
 		
 		// Both DM and server commands

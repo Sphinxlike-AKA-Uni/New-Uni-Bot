@@ -1,7 +1,7 @@
 #!/bin/bash
 function RunUni
 {
-	./Uni
+	./Uni -config ../UniConfig.inf
 }
 
 #go build -gccgoflags "-L /lib64 -l pthread" Uni.go

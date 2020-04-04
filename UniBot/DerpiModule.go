@@ -187,7 +187,7 @@ func (Uni *UniBot) SearchOnDerpi(cID, tags string) {
 	}
 	
 	var imagetags string = strings.Join(s.Images[0].Tags, ", ")
-	if len(imagetags) > 2047 {
+	if len(imagetags) > 2047 { // description capped at 2048 characters
 		imagetags = imagetags[:2043]+"...."
 	}
 	
